@@ -1,10 +1,20 @@
 import pandas as pd
+import pickle
+
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-import nltk
 
+from nltk.stem.porter import PorterStemmer
+
+# -------------------------------
+# Load Dataset
+# -------------------------------
 
 df = pd.read_csv("data/netflix_titles.csv")
+
+# -------------------------------
+# Select Required Columns
+# -------------------------------
 
 df = df[['title',
          'director',
@@ -12,10 +22,15 @@ df = df[['title',
          'listed_in',
          'description']]
 
-print(df.head())
+# -------------------------------
+# Handle Missing Values
+# -------------------------------
 
-df.fillna("",inplace=True)
-print(df.isnull().sum())
+df.fillna("", inplace=True)
+
+# -------------------------------
+# Create Tags Column
+# -------------------------------
 
 df['tags'] = (
     df['director'] + ' ' +
@@ -24,30 +39,78 @@ df['tags'] = (
     df['description']
 )
 
-print(df[['title', 'tags']].head())
+# -------------------------------
+# Create New DataFrame
+# -------------------------------
 
-new_df = df[['title', 'tags']]
+new_df = df[['title', 'tags']].copy()
 
-print(new_df.head())
+# -------------------------------
+# Convert to Lowercase
+# -------------------------------
 
-new_df['tags'] = new_df['tags'].apply(lambda x: x.lower())
+new_df['tags'] = new_df['tags'].apply(
+    lambda x: x.lower()
+)
+
+# -------------------------------
+# Stemming
+# -------------------------------
+
+ps = PorterStemmer()
+
+def stem(text):
+    y = []
+
+    for word in text.split():
+        y.append(ps.stem(word))
+
+    return " ".join(y)
+
+new_df['tags'] = new_df['tags'].apply(stem)
+
+# -------------------------------
+# Text Vectorization
+# -------------------------------
 
 cv = CountVectorizer(
     max_features=5000,
     stop_words='english'
 )
 
-vectors = cv.fit_transform(new_df['tags']).toarray()
+vectors = cv.fit_transform(
+    new_df['tags']
+).toarray()
 
-print(vectors.shape)
+# -------------------------------
+# Similarity Matrix
+# -------------------------------
 
 similarity = cosine_similarity(vectors)
 
-print(similarity.shape)
+# -------------------------------
+# Save Files
+# -------------------------------
+
+pickle.dump(
+    new_df,
+    open('movies.pkl', 'wb')
+)
+
+pickle.dump(
+    similarity,
+    open('similarity.pkl', 'wb')
+)
+
+# -------------------------------
+# Recommendation Function
+# -------------------------------
 
 def recommend(movie):
 
-    movie_index = new_df[new_df['title'] == movie].index[0]
+    movie_index = new_df[
+        new_df['title'] == movie
+    ].index[0]
 
     distances = similarity[movie_index]
 
@@ -57,21 +120,15 @@ def recommend(movie):
         key=lambda x: x[1]
     )[1:6]
 
+    print("\nRecommended Movies:\n")
+
     for i in movie_list:
-        print(new_df.iloc[i[0]].title)
+        print(
+            new_df.iloc[i[0]].title
+        )
 
-    
+# -------------------------------
+# Test
+# -------------------------------
+
 recommend("Ganglands")
-from nltk.stem.porter import PorterStemmer
-
-ps = PorterStemmer()
-
-def stem(text):
-    y = []
-
-    for i in text.split():
-        y.append(ps.stem(i))
-
-    return " ".join(y)
-
-new_df['tags'] = new_df['tags'].apply(stem)
