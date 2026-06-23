@@ -2,23 +2,63 @@
 <html>
 <head>
     <title>Netflix Recommendation System</title>
+
+    <style>
+
+        body{
+            background-color:#141414;
+            color:white;
+            font-family:Arial;
+            text-align:center;
+        }
+
+        h1{
+            color:#E50914;
+        }
+
+        select{
+            width:350px;
+            padding:10px;
+            margin:10px;
+        }
+
+        button{
+            background:#E50914;
+            color:white;
+            border:none;
+            padding:10px 20px;
+            cursor:pointer;
+        }
+
+        .movie-card{
+            background:#222;
+            width:300px;
+            margin:10px auto;
+            padding:10px;
+            border-radius:10px;
+        }
+
+    </style>
+
 </head>
 
 <body>
 
-    <h1>Netflix Recommendation System</h1>
+    <h1>🎬 Netflix Recommendation System</h1>
 
     <form method="POST">
 
         <select name="movie">
 
             {% for movie in movie_list %}
-                <option value="{{ movie }}">
-                    {{ movie }}
-                </option>
+            <option value="{{movie}}">
+                {{movie}}
+            </option>
             {% endfor %}
 
         </select>
+
+        <br>
 
         <button type="submit">
             Recommend
@@ -26,15 +66,15 @@
 
     </form>
 
-    <h2>Recommendations</h2>
+    <h2>Recommended Movies</h2>
 
-    <ul>
+    {% for movie in recommendations %}
 
-        {% for movie in recommendations %}
-            <li>{{ movie }}</li>
-        {% endfor %}
+        <div class="movie-card">
+            {{movie}}
+        </div>
 
-    </ul>
+    {% endfor %}
 
 </body>
 </html>
