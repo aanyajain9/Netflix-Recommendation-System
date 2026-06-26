@@ -1,10 +1,30 @@
 from flask import Flask, render_template, request
 import pickle
+import requests
+import os
+
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 
+load_dotenv()
+
+API_KEY = os.getenv("OMDB_API_KEY")
+
+
 movies = pickle.load(open('movies.pkl', 'rb'))
 similarity = pickle.load(open('similarity.pkl', 'rb'))
+
+
+def fetch_movie_details(movie_name):
+
+    url = f"https://www.omdbapi.com/?apikey={API_KEY}&t={movie_name}"
+
+    response = requests.get(url)
+
+    data = response.json()
+
+    return data
 
 def recommend(movie):
     movie_index = movies[movies['title'] == movie].index[0]
@@ -40,6 +60,5 @@ def home():
         movie_list=movies['title'].values,
         recommendations=recommendations
     )
-
 if __name__ == "__main__":
     app.run(debug=True)
