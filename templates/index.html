@@ -4,6 +4,7 @@
 <head>
 
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Netflix Recommendation System</title>
 
@@ -13,16 +14,34 @@
 
         body{
             background:#141414;
+            color:white;
         }
 
-        h1{
-            color:#E50914;
+        .navbar{
+            background:#000;
+        }
+
+        .navbar-brand{
+            color:#E50914 !important;
+            font-size:32px;
             font-weight:bold;
         }
 
         .card{
-            background:#1f1f1f;
+            background:#1e1e1e;
             color:white;
+            border:none;
+            transition:.3s;
+            height:100%;
+        }
+
+        .card:hover{
+            transform:scale(1.05);
+        }
+
+        img{
+            height:350px;
+            object-fit:cover;
         }
 
     </style>
@@ -31,28 +50,44 @@
 
 <body>
 
+<nav class="navbar">
+
+<div class="container">
+
+<a class="navbar-brand">
+
+NETFLIX RECOMMENDER
+
+</a>
+
+</div>
+
+</nav>
+
 <div class="container mt-5">
 
-<h1 class="text-center">
-🎬 Netflix Recommendation System
-</h1>
+<h2 class="text-center mb-4">
+
+Movie Recommendation System
+
+</h2>
 
 <form method="POST">
 
-<div class="mb-3">
+<div class="row">
 
-<label class="form-label text-white">
-Select Movie
-</label>
+<div class="col-md-10">
 
 <select
-class="form-select"
-name="movie">
+name="movie"
+class="form-select">
 
 {% for movie in movie_list %}
 
 <option value="{{movie}}">
+
 {{movie}}
+
 </option>
 
 {% endfor %}
@@ -61,28 +96,63 @@ name="movie">
 
 </div>
 
+<div class="col-md-2">
+
 <button
-class="btn btn-danger">
+class="btn btn-danger w-100">
 
 Recommend
 
 </button>
 
+</div>
+
+</div>
+
 </form>
 
-<hr class="text-white">
+<hr>
 
 <div class="row">
 
 {% for movie in recommendations %}
 
-<div class="col-md-4 mt-3">
+<div class="col-md-4 mt-4">
 
 <div class="card">
 
+<img
+src="{{movie.poster}}"
+class="card-img-top">
+
 <div class="card-body">
 
-<h5>{{movie}}</h5>
+<h5>
+
+{{movie.title}}
+
+</h5>
+
+<p>
+
+⭐ IMDb Rating :
+{{movie.rating}}
+
+</p>
+
+<p>
+
+🎭 Genre :
+{{movie.genre}}
+
+</p>
+
+<p>
+
+📅 Year :
+{{movie.year}}
+
+</p>
 
 </div>
 

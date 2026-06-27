@@ -27,6 +27,7 @@ def fetch_movie_details(movie_name):
     return data
 
 def recommend(movie):
+
     movie_index = movies[movies['title'] == movie].index[0]
 
     distances = similarity[movie_index]
@@ -34,15 +35,42 @@ def recommend(movie):
     movie_list = sorted(
         list(enumerate(distances)),
         reverse=True,
-        key=lambda x: x[1]
+        key=lambda x:x[1]
     )[1:6]
 
-    recommendations = []
+    recommendations=[]
 
     for i in movie_list:
-        recommendations.append(
-            movies.iloc[i[0]].title
-        )
+
+        movie_name = movies.iloc[i[0]].title
+
+        details = fetch_movie_details(movie_name)
+
+        recommendations.append({
+
+            "title":movie_name,
+
+            "poster":details.get(
+                "Poster",
+                ""
+            ),
+
+            "rating":details.get(
+                "imdbRating",
+                "N/A"
+            ),
+
+            "genre":details.get(
+                "Genre",
+                "N/A"
+            ),
+
+            "year":details.get(
+                "Year",
+                "N/A"
+            )
+
+        })
 
     return recommendations
 
@@ -56,9 +84,9 @@ def home():
         recommendations = recommend(movie)
 
     return render_template(
-        'index.html',
-        movie_list=movies['title'].values,
-        recommendations=recommendations
-    )
+    "index.html",
+    movie_list=movies["title"].values,
+    recommendations=recommendations
+)
 if __name__ == "__main__":
     app.run(debug=True)
