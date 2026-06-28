@@ -77,16 +77,28 @@ def recommend(movie):
 @app.route('/', methods=['GET', 'POST'])
 def home():
 
-    recommendations = []
+    recommendations=[]
 
-    if request.method == 'POST':
-        movie = request.form['movie']
-        recommendations = recommend(movie)
+    selected_movie=None
+
+    if request.method=="POST":
+
+        movie=request.form["movie"]
+
+        recommendations=recommend(movie)
+
+        selected_movie=fetch_movie_details(movie)
 
     return render_template(
-    "index.html",
-    movie_list=movies["title"].values,
-    recommendations=recommendations
+
+'index.html',
+
+movie_list=movies['title'].values,
+
+recommendations=recommendations,
+
+selected_movie=selected_movie
 )
+
 if __name__ == "__main__":
     app.run(debug=True)

@@ -113,7 +113,58 @@ Recommend
 
 <hr>
 
+{% if selected_movie %}
+
+<div class="card mt-5">
+
+<img
+src="{{selected_movie.Poster}}"
+class="card-img-top">
+
+<div class="card-body">
+
+<h3>
+
+{{selected_movie.Title}}
+
+</h3>
+
+<p>
+
+⭐ IMDb Rating :
+{{selected_movie.imdbRating}}
+
+</p>
+
+<p>
+
+🎭 Genre :
+{{selected_movie.Genre}}
+
+</p>
+
+<p>
+
+📅 Released :
+{{selected_movie.Released}}
+
+</p>
+
+<p>
+
+{{selected_movie.Plot}}
+
+</p>
+
+</div>
+
+</div>
+
+{% endif %}
+
 <div class="row">
+
+
 
 {% for movie in recommendations %}
 
