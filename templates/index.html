@@ -88,6 +88,13 @@ class="form-select">
 
 {{movie}}
 
+
+<p>
+    
+    {{movie.plot}}
+
+</p>
+
 </option>
 
 {% endfor %}
@@ -122,6 +129,26 @@ src="{{selected_movie.Poster}}"
 class="card-img-top">
 
 <div class="card-body">
+    <h5 class="card-title">
+
+{{movie.title}}
+
+</h5>
+<p class="text-warning">
+
+⭐ {{movie.rating}}
+
+</p>
+<span class="badge bg-danger">
+
+{{movie.genre}}
+
+</span>
+<span class="badge bg-secondary">
+
+{{movie.year}}
+
+</span>
 
 <h3>
 
@@ -172,8 +199,11 @@ class="card-img-top">
 
 <div class="card">
 
-<img
-src="{{movie.poster}}"
+{% if movie.poster != "N/A" %}
+
+<img src="{{movie.poster}}" class="card-img-top">
+
+{% endif %}
 class="card-img-top">
 
 <div class="card-body">

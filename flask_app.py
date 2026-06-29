@@ -46,34 +46,23 @@ def recommend(movie):
 
         details = fetch_movie_details(movie_name)
 
+
+
         recommendations.append({
 
-            "title":movie_name,
+        "title": movie_name,
 
-            "poster":details.get(
-                "Poster",
-                ""
-            ),
+        "poster": details.get("Poster",""),
 
-            "rating":details.get(
-                "imdbRating",
-                "N/A"
-            ),
+        "rating": details.get("imdbRating","N/A"),
 
-            "genre":details.get(
-                "Genre",
-                "N/A"
-            ),
+        "genre": details.get("Genre","N/A"),
 
-            "year":details.get(
-                "Year",
-                "N/A"
-            )
+        "year": details.get("Year","N/A"),
 
-        })
+        "plot": details.get("Plot","Not Available")
 
-    return recommendations
-
+    })
 @app.route('/', methods=['GET', 'POST'])
 def home():
 
@@ -91,14 +80,15 @@ def home():
 
     return render_template(
 
-'index.html',
+    'index.html',
 
-movie_list=movies['title'].values,
+    movie_list=movies['title'].values,
 
-recommendations=recommendations,
+    recommendations=recommendations,
 
-selected_movie=selected_movie
-)
+    selected_movie=selected_movie
+    
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)
