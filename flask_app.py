@@ -35,10 +35,10 @@ def recommend(movie):
     movie_list = sorted(
         list(enumerate(distances)),
         reverse=True,
-        key=lambda x:x[1]
+        key=lambda x: x[1]
     )[1:6]
 
-    recommendations=[]
+    recommendations = []
 
     for i in movie_list:
 
@@ -46,23 +46,26 @@ def recommend(movie):
 
         details = fetch_movie_details(movie_name)
 
-
-
         recommendations.append({
 
-        "title": movie_name,
+            "title": movie_name,
 
-        "poster": details.get("Poster",""),
+            "poster": details.get("Poster", ""),
 
-        "rating": details.get("imdbRating","N/A"),
+            "rating": details.get("imdbRating", "N/A"),
 
-        "genre": details.get("Genre","N/A"),
+            "genre": details.get("Genre", "N/A"),
 
-        "year": details.get("Year","N/A"),
+            "year": details.get("Year", "N/A"),
 
-        "plot": details.get("Plot","Not Available")
+            "plot": details.get("Plot", "Not Available")
 
-    })
+        })
+
+    return recommendations
+
+
+
 @app.route('/', methods=['GET', 'POST'])
 def home():
 

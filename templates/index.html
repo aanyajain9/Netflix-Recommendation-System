@@ -85,16 +85,7 @@ class="form-select">
 {% for movie in movie_list %}
 
 <option value="{{movie}}">
-
-{{movie}}
-
-
-<p>
-    
-    {{movie.plot}}
-
-</p>
-
+    {{movie}}
 </option>
 
 {% endfor %}
@@ -124,32 +115,16 @@ Recommend
 
 <div class="card mt-5">
 
+{% if selected_movie.Poster != "N/A" %}
+
 <img
 src="{{selected_movie.Poster}}"
 class="card-img-top">
 
+{% endif %}
+
 <div class="card-body">
-    <h5 class="card-title">
-
-{{movie.title}}
-
-</h5>
-<p class="text-warning">
-
-⭐ {{movie.rating}}
-
-</p>
-<span class="badge bg-danger">
-
-{{movie.genre}}
-
-</span>
-<span class="badge bg-secondary">
-
-{{movie.year}}
-
-</span>
-
+    
 <h3>
 
 {{selected_movie.Title}}
@@ -187,6 +162,8 @@ class="card-img-top">
 
 </div>
 
+</div>
+
 {% endif %}
 
 <div class="row">
@@ -204,7 +181,6 @@ class="card-img-top">
 <img src="{{movie.poster}}" class="card-img-top">
 
 {% endif %}
-class="card-img-top">
 
 <div class="card-body">
 
@@ -235,6 +211,12 @@ class="card-img-top">
 
 </p>
 
+<p>
+
+{{movie.plot}}
+
+</p>
+
 </div>
 
 </div>
@@ -246,6 +228,7 @@ class="card-img-top">
 </div>
 
 </div>
+
 
 </body>
 
