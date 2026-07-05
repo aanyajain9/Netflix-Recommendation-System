@@ -78,19 +78,23 @@ Movie Recommendation System
 
 <div class="col-md-10">
 
-<select
-name="movie"
-class="form-select">
+<input
+    type="text"
+    name="movie"
+    class="form-control"
+    list="movies"
+    placeholder="Search Movie..."
+    required>
+
+<datalist id="movies">
 
 {% for movie in movie_list %}
 
 <option value="{{movie}}">
-    {{movie}}
-</option>
 
 {% endfor %}
 
-</select>
+</datalist>
 
 </div>
 
