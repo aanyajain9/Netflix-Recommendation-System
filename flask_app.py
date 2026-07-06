@@ -58,7 +58,9 @@ def recommend(movie):
 
             "year": details.get("Year", "N/A"),
 
-            "plot": details.get("Plot", "Not Available")
+            "plot": details.get("Plot", "Not Available"),
+
+            "score": round(i[1] * 100, 2)
 
         })
 
