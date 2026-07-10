@@ -43,7 +43,12 @@ df['tags'] = (
 # Create New DataFrame
 # -------------------------------
 
-new_df = df[['title', 'tags']].copy()
+new_df = df[[
+    'title',
+    'listed_in',
+    'description',
+    'tags'
+]].copy()
 
 # -------------------------------
 # Convert to Lowercase

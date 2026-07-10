@@ -83,6 +83,20 @@ def home():
 
         selected_movie=fetch_movie_details(movie)
 
+
+        genres = []
+
+    for genre in movies["listed_in"]:
+
+        for g in genre.split(","):
+
+            g = g.strip()
+
+            if g not in genres:
+                genres.append(g)
+
+    genres.sort()
+
     return render_template(
 
     'index.html',
@@ -91,7 +105,8 @@ def home():
 
     recommendations=recommendations,
 
-    selected_movie=selected_movie
+    selected_movie=selected_movie,
+    genres=genres
     
     )
 
